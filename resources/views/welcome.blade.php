@@ -18,7 +18,7 @@
             <a href="/register" class="underline">Register</a> to pass, stranger. Or
         </div>
         <div>
-            <a href="/login" class="underline">show your credentials</a>.
+            <a href="{{route('login')}}" class="underline">show your credentials</a>.
         </div>
     </body>
 </html>
