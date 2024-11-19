@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     $user = Auth::user();
     if ($user) {
-        return $user->username;
+        $username = $user->username;
+        Auth::logout(); // Log the user out
+        return $username;
     }
     return view('welcome');
 });
