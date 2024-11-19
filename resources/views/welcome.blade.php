@@ -14,11 +14,6 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="bg-[#1e1e2e] h-screen text-[#cdd6f4]">
-        <div>
-            <a href="/register" class="underline">Register</a> to pass, stranger. Or
-        </div>
-        <div>
-            <a href="{{route('login')}}" class="underline">show your credentials</a>.
-        </div>
+        <a href="/login" class="underline">Identify yourself</a>, stranger.
     </body>
 </html>
