@@ -39,7 +39,7 @@ class AuthController extends Controller
                 return redirect()->intended();
             } else {
                 // Supposedly unreachable
-                error_log('What the fuck bro!!! (login edition)');
+                error_log('What the f*ck bro!!! (login edition)');
 
                 return Response(['status' => 500]);
             }
