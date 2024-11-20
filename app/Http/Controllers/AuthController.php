@@ -26,9 +26,9 @@ class AuthController extends Controller
             return redirect()->intended();
         }
 
-        $user_exists = User::find(['username' => $credentials['username']]);
+        $user_exists = User::where('username', $credentials['username'])->get();
 
-        if ($user_exists->empty()) {
+        if ($user_exists->isEmpty()) {
             $user = new User;
             $user->username = $credentials['username'];
             $user->password = $credentials['password'];
