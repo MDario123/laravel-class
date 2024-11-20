@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Models\Board;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -9,8 +10,10 @@ Route::get('/', function () {
     if ($user) {
         $username = $user->username;
         Auth::logout(); // Log the user out
+
         return $username;
     }
+
     return view('welcome');
 });
 
@@ -19,3 +22,7 @@ Route::get('/login', [AuthController::class, 'showLogin'])
 
 Route::post('/login', [AuthController::class, 'login'])
     ->name('login');
+
+Route::get('/boards', function () {
+    return Board::all();
+});
