@@ -21,5 +21,7 @@
             @csrf
             <button type="submit">Logout</button>
         </form>
+
+        <a href="/boards" class="underline">Boards.</a>
     </body>
 </html>
