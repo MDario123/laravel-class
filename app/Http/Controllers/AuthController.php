@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function showLogin()
+    public function create()
     {
         return view('login');
     }
 
-    public function login(Request $request)
+    public function store(Request $request)
     {
         $credentials = $request->validate([
             'username' => ['required'],
@@ -48,5 +48,17 @@ class AuthController extends Controller
         }
 
         return 'The end is near.';
+    }
+
+    public function destroy(Request $request) {
+        Auth::logout();
+
+        // Invalidate the user's session to prevent reuse
+        $request->session()->invalidate();
+
+        // Regenerate the session token for security
+        $request->session()->regenerateToken();
+
+        return redirect()->route('welcome');
     }
 }
