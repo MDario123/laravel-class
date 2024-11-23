@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Models\Board;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +24,3 @@ Route::post('/login', [AuthController::class, 'store'])
 
 Route::post('/logout', [AuthController::class, 'destroy'])
     ->name('logout');
-
-Route::get('/boards', function () {
-    return Board::all();
-});
