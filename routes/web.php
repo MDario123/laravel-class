@@ -9,6 +9,7 @@ Route::get('/', function () {
     if ($user) {
         return redirect()->route('dashboard');
     }
+
     return view('welcome');
 })->name('welcome');
 

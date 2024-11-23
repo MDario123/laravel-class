@@ -50,7 +50,8 @@ class AuthController extends Controller
         return 'The end is near.';
     }
 
-    public function destroy(Request $request) {
+    public function destroy(Request $request)
+    {
         Auth::logout();
 
         // Invalidate the user's session to prevent reuse
