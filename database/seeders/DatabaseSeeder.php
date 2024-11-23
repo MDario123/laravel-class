@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\BoardTemplate;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,6 +18,13 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'username' => 'Test User',
+        ]);
+
+        BoardTemplate::factory()->create([
+            'size_x' => 11,
+            'size_y' => 11,
+            'resources' => [],
+            'extra_rules' => [],
         ]);
     }
 }
