@@ -36,7 +36,7 @@ class BoardTemplateController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('templates.show', ['template' => BoardTemplate::findOrFail($id)]);
     }
 
     /**
