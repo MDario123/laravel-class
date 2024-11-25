@@ -27,4 +27,4 @@ Route::post('/login', [AuthController::class, 'store'])
 Route::post('/logout', [AuthController::class, 'destroy'])
     ->name('logout');
 
-Route::resource('templates', BoardTemplateController::class);
+Route::resource('templates', BoardTemplateController::class)->name('index', 'templates');

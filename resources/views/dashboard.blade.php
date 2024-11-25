@@ -23,5 +23,6 @@
         </form>
 
         <a href="/boards" class="underline">Boards.</a>
+        <a href={{route('templates')}} class="underline">Templates.</a>
     </body>
 </html>
