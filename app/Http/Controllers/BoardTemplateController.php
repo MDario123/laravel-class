@@ -12,7 +12,7 @@ class BoardTemplateController extends Controller
      */
     public function index()
     {
-        return BoardTemplate::all();
+        return view('templates.index', ['templates' => BoardTemplate::all()]);
     }
 
     /**
