@@ -30,4 +30,6 @@ Route::post('/logout', [AuthController::class, 'destroy'])
 Route::resource('templates', BoardTemplateController::class)
     ->name('index', 'templates')
     ->name('create', 'template-create')
-    ->name('store', 'store-template');
+    ->name('store', 'template-store')
+    ->name('edit', 'template-edit')
+    ->name('update', 'template-update');

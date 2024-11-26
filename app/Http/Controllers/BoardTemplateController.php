@@ -70,7 +70,26 @@ class BoardTemplateController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated_data = $request->validate([
+            'size_x' => ['required', 'numeric', 'integer', 'min:2', 'max:20'],
+            'size_y' => ['required', 'numeric', 'integer', 'min:2', 'max:20'],
+            'resources' => ['required', 'json'],
+            'extra_rules' => ['required', 'json'],
+        ]);
+
+        $template = BoardTemplate::findOrFail($id);
+
+        $template->size_x = $validated_data['size_x'];
+        $template->size_y = $validated_data['size_y'];
+        $template->setResourcesDirectly($validated_data['resources']);
+        $template->extra_rules = $validated_data['extra_rules'];
+
+        if ($template->isDirty()) {
+            $template->save();
+        }
+
+        return redirect()->route('templates')
+            ->with('success', 'Template updated successfully!');
     }
 
     /**

@@ -10,6 +10,8 @@ class BoardTemplate extends Model
     /** @use HasFactory<\Database\Factories\BoardTemplateFactory> */
     use HasFactory;
 
+    public $timestamps = true;
+
     protected $fillable = [
         'size_x',
         'size_y',

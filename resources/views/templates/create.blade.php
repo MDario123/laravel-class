@@ -19,7 +19,7 @@
         <!-- Form Container -->
         <form
             method="POST"
-            action="{{ route('store-template') }}"
+            action="{{ route('template-store') }}"
             class="flex flex-col h-fit w-fit bg-[#313244] p-4 border-2 border-solid border-[#cba6f7] rounded-lg"
         >
             @csrf
