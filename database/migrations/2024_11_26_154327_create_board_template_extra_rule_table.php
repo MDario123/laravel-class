@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('board_template_extra_rule', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('board_template_id');
-            $table->foreignId('extra_rule_id');
+            $table->foreignId('board_template_id')->constrained();
+            $table->foreignId('extra_rule_id')->constrained();
 
             $table->text('value');
 

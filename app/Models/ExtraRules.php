@@ -9,4 +9,9 @@ class ExtraRules extends Model
 {
     /** @use HasFactory<\Database\Factories\ExtraRulesFactory> */
     use HasFactory;
+
+    public function boardTemplates()
+    {
+        return $this->belongsToMany(BoardTemplate::class);
+    }
 }

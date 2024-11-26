@@ -28,4 +28,9 @@ class BoardTemplate extends Model
     {
         $this->attributes['resources'] = $resources;
     }
+
+    public function extraRules()
+    {
+        return $this->belongsToMany(ExtraRules::class);
+    }
 }
