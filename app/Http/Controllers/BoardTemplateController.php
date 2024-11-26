@@ -20,7 +20,7 @@ class BoardTemplateController extends Controller
      */
     public function create()
     {
-        //
+        return view('templates.create');
     }
 
     /**
@@ -28,8 +28,26 @@ class BoardTemplateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated_data = $request->validate([
+            'size_x' => ['required', 'numeric', 'integer', 'min:2', 'max:20'],
+            'size_y' => ['required', 'numeric', 'integer', 'min:2', 'max:20'],
+            'resources' => ['required', 'json'],
+            'extra_rules' => ['required', 'json'],
+        ]);
+
+        $template = new BoardTemplate;
+
+        $template->size_x = $validated_data['size_x'];
+        $template->size_y = $validated_data['size_y'];
+        $template->setResourcesDirectly($validated_data['resources']);
+        $template->extra_rules = $validated_data['extra_rules'];
+
+        $template->save();
+
+        return redirect()->route('templates')
+            ->with('success', 'Template created successfully!');
     }
+    // "[{\"x\":1,\"y\":1,\"type\":\"Water\"}]"
 
     /**
      * Display the specified resource.
@@ -44,7 +62,7 @@ class BoardTemplateController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('templates.edit', ['template' => BoardTemplate::findOrFail($id)]);
     }
 
     /**

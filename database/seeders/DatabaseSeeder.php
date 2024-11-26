@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             'size_x' => 11,
             'size_y' => 11,
             'resources' => [],
-            'extra_rules' => [],
+            'extra_rules' => '{}',
         ]);
     }
 }

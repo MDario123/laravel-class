@@ -10,8 +10,20 @@ class BoardTemplate extends Model
     /** @use HasFactory<\Database\Factories\BoardTemplateFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'size_x',
+        'size_y',
+        'resources',
+        'extra_rules',
+    ];
+
     protected $casts = [
         'resources' => 'json',
         'extra_rules' => 'json',
     ];
+
+    public function setResourcesDirectly(string $resources)
+    {
+        $this->attributes['resources'] = $resources;
+    }
 }

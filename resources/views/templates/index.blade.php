@@ -17,5 +17,6 @@
         @foreach($templates as $template)
             <div> {{$template->toJson()}} </div>
         @endforeach
+        <a href={{route('template-create')}} class="underline">Create.</a>
     </body>
 </html>
