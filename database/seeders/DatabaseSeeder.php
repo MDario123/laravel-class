@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\BoardTemplate;
+use App\Models\ExtraRules;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -18,6 +19,17 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'username' => 'Test User',
+        ]);
+
+        ExtraRules::factory()->createMany([
+            [
+                'name' => 'allow_negative_gold',
+                'validation' => 'required|boolean',
+            ],
+            [
+                'name' => 'initial_gold',
+                'validation' => 'required|integer|numeric|min:0',
+            ],
         ]);
 
         BoardTemplate::factory()->create([
