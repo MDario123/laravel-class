@@ -19,6 +19,8 @@ return new class extends Migration
 
             $table->text('value');
 
+            $table->unique(['board_template_id', 'extra_rule_id']);
+
             $table->timestamps();
         });
     }

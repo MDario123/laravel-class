@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\BoardTemplate;
-use App\Models\ExtraRules;
+use App\Models\ExtraRule;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,22 +21,23 @@ class DatabaseSeeder extends Seeder
             'username' => 'Test User',
         ]);
 
-        ExtraRules::factory()->createMany([
+        ExtraRule::factory()->createMany([
             [
                 'name' => 'allow_negative_gold',
-                'validation' => 'required|boolean',
+                'validation' => 'boolean',
             ],
             [
                 'name' => 'initial_gold',
-                'validation' => 'required|integer|numeric|min:0',
+                'validation' => 'integer|numeric|min:0',
             ],
         ]);
 
-        BoardTemplate::factory()->create([
+        $template = BoardTemplate::factory()->create([
             'size_x' => 11,
             'size_y' => 11,
             'resources' => [],
-            'extra_rules' => '{}',
         ]);
+
+        $template->extraRules()->attach(2, ['value' => '20']);
     }
 }

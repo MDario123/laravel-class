@@ -17,7 +17,6 @@ return new class extends Migration
             $table->integer('size_x');
             $table->integer('size_y');
             $table->jsonb('resources');
-            $table->jsonb('extra_rules');
 
             $table->timestamps();
         });

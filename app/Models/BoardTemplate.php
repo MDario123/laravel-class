@@ -16,12 +16,10 @@ class BoardTemplate extends Model
         'size_x',
         'size_y',
         'resources',
-        'extra_rules',
     ];
 
     protected $casts = [
         'resources' => 'json',
-        'extra_rules' => 'json',
     ];
 
     public function setResourcesDirectly(string $resources)
@@ -31,6 +29,6 @@ class BoardTemplate extends Model
 
     public function extraRules()
     {
-        return $this->belongsToMany(ExtraRules::class);
+        return $this->belongsToMany(ExtraRule::class)->withPivot(['value']);
     }
 }

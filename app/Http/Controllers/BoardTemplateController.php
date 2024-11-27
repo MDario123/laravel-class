@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\BoardTemplate;
+use App\Models\ExtraRule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class BoardTemplateController extends Controller
 {
@@ -12,7 +14,7 @@ class BoardTemplateController extends Controller
      */
     public function index()
     {
-        return view('templates.index', ['templates' => BoardTemplate::all()]);
+        return view('templates.index', ['templates' => BoardTemplate::with('extraRules')->get()]);
     }
 
     /**
@@ -40,14 +42,30 @@ class BoardTemplateController extends Controller
         $template->size_x = $validated_data['size_x'];
         $template->size_y = $validated_data['size_y'];
         $template->setResourcesDirectly($validated_data['resources']);
-        $template->extra_rules = $validated_data['extra_rules'];
+
+        $erF = ExtraRule::all();
+        $er = $erF->mapWithKeys(function ($rule) {
+            return [$rule->name => $rule->validation];
+        })->toArray();
+
+        $er1 = json_decode($validated_data['extra_rules'], associative: true);
+        Validator::validate($er1, $er);
 
         $template->save();
+
+        $meaningful_extra_rules = [];
+
+        foreach ($erF as $rule) {
+            if ($er1[$rule->name] ?? null != null) {
+                $meaningful_extra_rules[$rule->id] = ['value' => $er1[$rule->name]];
+            }
+        }
+
+        $template->extraRules()->sync($meaningful_extra_rules);
 
         return redirect()->route('templates')
             ->with('success', 'Template created successfully!');
     }
-    // "[{\"x\":1,\"y\":1,\"type\":\"Water\"}]"
 
     /**
      * Display the specified resource.
@@ -62,7 +80,17 @@ class BoardTemplateController extends Controller
      */
     public function edit(string $id)
     {
-        return view('templates.edit', ['template' => BoardTemplate::findOrFail($id)]);
+        $template = BoardTemplate::findOrFail($id);
+        $extra_rules = $template
+            ->extraRules
+            ->mapWithKeys(function ($rule) {
+                return [$rule->name => $rule->pivot->value];
+            });
+
+        return view('templates.edit', [
+            'template' => $template,
+            'extra_rules' => $extra_rules,
+        ]);
     }
 
     /**
@@ -82,7 +110,24 @@ class BoardTemplateController extends Controller
         $template->size_x = $validated_data['size_x'];
         $template->size_y = $validated_data['size_y'];
         $template->setResourcesDirectly($validated_data['resources']);
-        $template->extra_rules = $validated_data['extra_rules'];
+
+        $erF = ExtraRule::all();
+        $er = $erF->mapWithKeys(function ($rule) {
+            return [$rule->name => $rule->validation];
+        })->toArray();
+
+        $er1 = json_decode($validated_data['extra_rules'], associative: true);
+        Validator::validate($er1, $er);
+
+        $meaningful_extra_rules = [];
+
+        foreach ($erF as $rule) {
+            if ($er1[$rule->name] ?? null != null) {
+                $meaningful_extra_rules[$rule->id] = ['value' => $er1[$rule->name]];
+            }
+        }
+
+        $template->extraRules()->sync($meaningful_extra_rules);
 
         if ($template->isDirty()) {
             $template->save();

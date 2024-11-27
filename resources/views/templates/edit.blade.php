@@ -77,7 +77,7 @@
                     name="extra_rules"
                     id="extra_rules"
                     placeholder="{}"
-                    value={{$template->extra_rules}}
+                    value={{$extra_rules->toJson()}}
                     required
                     class="w-full border-2 border-[#cba6f7] rounded-lg bg-[#313244] text-[#cdd6f4] px-2 py-1"
                 />
