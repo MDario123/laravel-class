@@ -16,8 +16,8 @@
     <body class="bg-[#1e1e2e] h-screen text-[#cdd6f4]">
         @foreach($templates as $template)
             <div>
-                {{$template->toJson()}}
-                <a href="{{ route('template-edit', $template->id) }}" class="underline">Edit.</a>
+                {{json_encode($template)}}
+                <a href="{{ route('template-edit', $template['id']) }}" class="underline">Edit.</a>
             </div>
         @endforeach
         <a href={{route('template-create')}} class="underline">Create.</a>

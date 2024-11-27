@@ -14,7 +14,19 @@ class BoardTemplateController extends Controller
      */
     public function index()
     {
-        return view('templates.index', ['templates' => BoardTemplate::with('extraRules')->get()]);
+        $templates = BoardTemplate::with('extraRules')
+            ->get()
+            ->map(fn ($template) => [
+                'id' => $template->id,
+                'size_x' => $template->size_x,
+                'size_y' => $template->size_y,
+                'resources' => $template->resources,
+                'extra_rules' => $template->extraRules->mapWithKeys(fn ($rule) => [
+                    $rule->name => $rule->pivot->value,
+                ]),
+            ]);
+
+        return view('templates.index', ['templates' => $templates]);
     }
 
     /**
