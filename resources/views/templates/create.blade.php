@@ -34,7 +34,7 @@
                         name="size_x"
                         id="size_x"
                         placeholder="11"
-                        value="11"
+                        value={{$template['size_x']}}
                         required
                         class="w-full border-2 border-[#cba6f7] rounded-lg bg-[#313244] text-[#cdd6f4] px-2 py-1"
                     />
@@ -48,7 +48,7 @@
                         name="size_y"
                         id="size_y"
                         placeholder="11"
-                        value="11"
+                        value={{$template['size_y']}}
                         required
                         class="w-full border-2 border-[#cba6f7] rounded-lg bg-[#313244] text-[#cdd6f4] px-2 py-1"
                     />
@@ -63,7 +63,7 @@
                     id="resources"
                     required
                     class="w-full border-2 border-[#cba6f7] rounded-lg bg-[#313244] text-[#cdd6f4] px-2 py-1"
-                >[{"x":1,"y":1,"type":"Water"}]</textarea>
+                >{{json_encode($template['resources'])}}</textarea>
             </div>
 
             <!-- Extra Rules -->
@@ -74,7 +74,7 @@
                     name="extra_rules"
                     id="extra_rules"
                     placeholder="{}"
-                    value="{}"
+                    value={{json_encode($extra_rules)}}
                     required
                     class="w-full border-2 border-[#cba6f7] rounded-lg bg-[#313244] text-[#cdd6f4] px-2 py-1"
                 />

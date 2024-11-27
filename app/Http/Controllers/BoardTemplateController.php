@@ -34,7 +34,18 @@ class BoardTemplateController extends Controller
      */
     public function create()
     {
-        return view('templates.create');
+        return view('templates.create', [
+            'template' => [
+                'size_x' => 11,
+                'size_y' => 11,
+                'resources' => [
+                    'x' => 6,
+                    'y' => 6,
+                    'type' => 'Water',
+                ],
+            ],
+            'extra_rules' => [],
+        ]);
     }
 
     /**
@@ -42,18 +53,13 @@ class BoardTemplateController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate
         $validated_data = $request->validate([
             'size_x' => ['required', 'numeric', 'integer', 'min:2', 'max:20'],
             'size_y' => ['required', 'numeric', 'integer', 'min:2', 'max:20'],
             'resources' => ['required', 'json'],
             'extra_rules' => ['required', 'json'],
         ]);
-
-        $template = new BoardTemplate;
-
-        $template->size_x = $validated_data['size_x'];
-        $template->size_y = $validated_data['size_y'];
-        $template->setResourcesDirectly($validated_data['resources']);
 
         $erF = ExtraRule::all();
         $er = $erF->mapWithKeys(function ($rule) {
@@ -63,8 +69,16 @@ class BoardTemplateController extends Controller
         $er1 = json_decode($validated_data['extra_rules'], associative: true);
         Validator::validate($er1, $er);
 
+        // Store plain data
+        $template = new BoardTemplate;
+
+        $template->size_x = $validated_data['size_x'];
+        $template->size_y = $validated_data['size_y'];
+        $template->setResourcesDirectly($validated_data['resources']);
+
         $template->save();
 
+        // Store extra rules
         $meaningful_extra_rules = [];
 
         foreach ($erF as $rule) {
@@ -75,6 +89,7 @@ class BoardTemplateController extends Controller
 
         $template->extraRules()->sync($meaningful_extra_rules);
 
+        // And finally redirect to index
         return redirect()->route('templates')
             ->with('success', 'Template created successfully!');
     }
@@ -95,65 +110,11 @@ class BoardTemplateController extends Controller
         $template = BoardTemplate::findOrFail($id);
         $extra_rules = $template
             ->extraRules
-            ->mapWithKeys(function ($rule) {
-                return [$rule->name => $rule->pivot->value];
-            });
+            ->mapWithKeys(fn ($rule) => [$rule->name => $rule->pivot->value]);
 
-        return view('templates.edit', [
+        return view('templates.create', [
             'template' => $template,
             'extra_rules' => $extra_rules,
         ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $validated_data = $request->validate([
-            'size_x' => ['required', 'numeric', 'integer', 'min:2', 'max:20'],
-            'size_y' => ['required', 'numeric', 'integer', 'min:2', 'max:20'],
-            'resources' => ['required', 'json'],
-            'extra_rules' => ['required', 'json'],
-        ]);
-
-        $template = BoardTemplate::findOrFail($id);
-
-        $template->size_x = $validated_data['size_x'];
-        $template->size_y = $validated_data['size_y'];
-        $template->setResourcesDirectly($validated_data['resources']);
-
-        $erF = ExtraRule::all();
-        $er = $erF->mapWithKeys(function ($rule) {
-            return [$rule->name => $rule->validation];
-        })->toArray();
-
-        $er1 = json_decode($validated_data['extra_rules'], associative: true);
-        Validator::validate($er1, $er);
-
-        $meaningful_extra_rules = [];
-
-        foreach ($erF as $rule) {
-            if ($er1[$rule->name] ?? null != null) {
-                $meaningful_extra_rules[$rule->id] = ['value' => $er1[$rule->name]];
-            }
-        }
-
-        $template->extraRules()->sync($meaningful_extra_rules);
-
-        if ($template->isDirty()) {
-            $template->save();
-        }
-
-        return redirect()->route('templates')
-            ->with('success', 'Template updated successfully!');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

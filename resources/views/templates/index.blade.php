@@ -17,7 +17,7 @@
         @foreach($templates as $template)
             <div>
                 {{json_encode($template)}}
-                <a href="{{ route('template-edit', $template['id']) }}" class="underline">Edit.</a>
+                <a href="{{ route('template-edit', $template['id']) }}" class="underline">Create from.</a>
             </div>
         @endforeach
         <a href={{route('template-create')}} class="underline">Create.</a>
