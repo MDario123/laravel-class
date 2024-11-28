@@ -2,21 +2,16 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BoardTemplateController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    $user = Auth::user();
-    if ($user) {
-        return redirect()->route('dashboard');
-    }
+Route::get('/', [WelcomeController::class, 'index'])
+    ->name('welcome');
 
-    return view('welcome');
-})->name('welcome');
-
-Route::get('/dashboard', function () {
-    return view('dashboard', ['username' => Auth::user()->username]);
-})->middleware('auth')->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware('auth')
+    ->name('dashboard');
 
 Route::get('/login', [AuthController::class, 'create'])
     ->name('login');
