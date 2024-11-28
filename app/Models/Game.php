@@ -29,6 +29,11 @@ class Game extends Model
         return $this->belongsTo(User::class, 'player2_id');
     }
 
+    public function template()
+    {
+        return $this->belongsTo(BoardTemplate::class, 'template_id');
+    }
+
     /**
      * Scope a query to only include users of a given type.
      */
