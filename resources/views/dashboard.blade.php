@@ -14,13 +14,15 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="bg-[#1e1e2e] h-screen text-[#cdd6f4]">
-        <div>
-            Hello, {{$username}}!
+        <div class="flex flex-row">
+            <div>
+                Hello, {{$username}}!
+            </div>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="border-solid border-[#cba6f7] border-[2px] rounded-lg bg-[#313244]">Logout</button>
+            </form>
         </div>
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit">Logout</button>
-        </form>
 
         <a href="/boards" class="underline">Boards.</a>
         <a href={{route('templates')}} class="underline">Templates.</a>
