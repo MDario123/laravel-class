@@ -35,7 +35,9 @@
         @foreach($templates as $template)
             <div>
                 <a href="{{ route('template-edit', $template['id']) }}" class="underline">Create from.</a>
-                <a href="{{ route('game-create', ['template_id' => $template['id']]) }}" class="underline">Start game from.</a>
+                @if ($username != null)
+                    <a href="{{ route('game-create', ['template_id' => $template['id']]) }}" class="underline">Start game from.</a>
+                @endif
                 {{json_encode($template)}}
             </div>
         @endforeach
