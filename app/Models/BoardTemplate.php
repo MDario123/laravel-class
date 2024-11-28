@@ -31,4 +31,22 @@ class BoardTemplate extends Model
     {
         return $this->belongsToMany(ExtraRule::class)->withPivot(['value']);
     }
+
+    public function initialPlayerState()
+    {
+        $extra_rules = $this->extraRules()
+            ->get(['name', 'value'])
+            ->mapWithKeys(fn ($rule) => [$rule->name => $rule->value]);
+
+        $initial_gold = $extra_rules['initial_gold'];
+
+        return [
+            'turn' => 0,
+            'gold' => $initial_gold,
+            'castle' => null,
+            'resources' => [],
+            'units' => [],
+            'towers' => [],
+        ];
+    }
 }

@@ -28,6 +28,7 @@ Route::resource('templates', BoardTemplateController::class)
 
 Route::resource('games', GameController::class)
     ->only(['create', 'store', 'edit', 'update'])
+    ->middleware(['auth'])
     ->name('create', 'game-create')
     ->name('store', 'game-store')
     ->name('edit', 'game-edit')
