@@ -38,7 +38,7 @@ class BoardTemplate extends Model
             ->get(['name', 'value'])
             ->mapWithKeys(fn ($rule) => [$rule->name => $rule->value]);
 
-        $initial_gold = $extra_rules['initial_gold'];
+        $initial_gold = $extra_rules['initial_gold'] ?? 5;
 
         return [
             'turn' => 0,
