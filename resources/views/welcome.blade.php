@@ -28,8 +28,13 @@
                     <button type="submit" class="border-solid border-[#cba6f7] border-[2px] rounded-lg bg-[#313244]">Logout</button>
                 </form>
             </div>
+            <div>
+                <a href={{route('game-create')}} class="underline">Start new game.</a>
+            </div>
         @endif
-        <a href={{route('template-create')}} class="underline">Create template.</a>
+        <div>
+            <a href={{route('template-create')}} class="underline">Create template.</a>
+        </div>
         @foreach($templates as $template)
             <div>
                 {{json_encode($template)}}
