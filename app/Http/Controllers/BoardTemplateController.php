@@ -10,26 +10,6 @@ use Illuminate\Support\Facades\Validator;
 class BoardTemplateController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $templates = BoardTemplate::with('extraRules')
-            ->get()
-            ->map(fn ($template) => [
-                'id' => $template->id,
-                'size_x' => $template->size_x,
-                'size_y' => $template->size_y,
-                'resources' => $template->resources,
-                'extra_rules' => $template->extraRules->mapWithKeys(fn ($rule) => [
-                    $rule->name => $rule->pivot->value,
-                ]),
-            ]);
-
-        return view('templates.index', ['templates' => $templates]);
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create()
@@ -90,7 +70,7 @@ class BoardTemplateController extends Controller
         $template->extraRules()->sync($meaningful_extra_rules);
 
         // And finally redirect to index
-        return redirect()->route('templates')
+        return redirect()->route('welcome')
             ->with('success', 'Template created successfully!');
     }
 

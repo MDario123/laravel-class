@@ -14,6 +14,27 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="bg-[#1e1e2e] h-screen text-[#cdd6f4]">
-        <a href="/login" class="underline">Identify yourself</a>, stranger.
+        @if ($username == null)
+            <div>
+                <a href="/login" class="underline">Identify yourself</a>, stranger.
+            </div>
+        @else
+            <div class="flex flex-row">
+                <div>
+                    Hello, {{$username}}!
+                </div>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="border-solid border-[#cba6f7] border-[2px] rounded-lg bg-[#313244]">Logout</button>
+                </form>
+            </div>
+        @endif
+        <a href={{route('template-create')}} class="underline">Create template.</a>
+        @foreach($templates as $template)
+            <div>
+                {{json_encode($template)}}
+                <a href="{{ route('template-edit', $template['id']) }}" class="underline">Create from.</a>
+            </div>
+        @endforeach
     </body>
 </html>
