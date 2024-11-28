@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BoardTemplate;
+use App\Models\Game;
 use Illuminate\Support\Facades\Auth;
 
 class WelcomeController extends Controller
@@ -21,9 +22,27 @@ class WelcomeController extends Controller
                 ]),
             ]);
 
+        $user = Auth::user();
+        if ($user == null) {
+            return view('welcome_stranger', [
+                'templates' => $templates,
+            ]);
+        }
+
+        $games = Game::playsIn($user->id)
+            ->with(['player1', 'player2'])
+            ->get()
+            ->map(fn ($game) => [
+                'id' => $game->id,
+                'player1' => $game->player1->username,
+                'player2' => $game->player2->username,
+                'template_id' => $game->template_id,
+            ]);
+
         return view('welcome', [
             'username' => Auth::user()->username ?? null,
             'templates' => $templates,
+            'games' => $games,
         ]);
     }
 }

@@ -14,28 +14,15 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="bg-[#1e1e2e] h-screen text-[#cdd6f4]">
-        <div class="flex flex-row">
-            <div>
-                Hello, {{$username}}!
-            </div>
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="border-solid border-[#cba6f7] border-[2px] rounded-lg bg-[#313244]">Logout</button>
-            </form>
+        <div>
+            <a href="/login" class="underline">Identify yourself</a>, stranger.
         </div>
         <div>
             <a href={{route('template-create')}} class="underline">Create template.</a>
         </div>
-        @foreach($games as $game)
-            <div>
-                <a href="{{ route('game-edit', $game['id']) }}" class="underline">Play.</a>
-                {{json_encode($game)}}
-            </div>
-        @endforeach
         @foreach($templates as $template)
             <div>
                 <a href="{{ route('template-edit', $template['id']) }}" class="underline">Create from.</a>
-                <a href="{{ route('game-create', ['template_id' => $template['id']]) }}" class="underline">Start game from.</a>
                 {{json_encode($template)}}
             </div>
         @endforeach
