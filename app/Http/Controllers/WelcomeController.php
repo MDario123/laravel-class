@@ -37,6 +37,7 @@ class WelcomeController extends Controller
                 'player1' => $game->player1->username,
                 'player2' => $game->player2->username,
                 'template_id' => $game->template_id,
+                'turn' => $game->turn,
                 'player1_state' => $game->player1_state,
                 'player2_state' => $game->player2_state,
             ]);
