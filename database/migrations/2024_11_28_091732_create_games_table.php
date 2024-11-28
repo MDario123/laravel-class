@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('player1_move')->nullable()->default(null);
             $table->string('player2_move')->nullable()->default(null);
 
+            $table->integer('turn')->default(0);
             $table->jsonb('player1_state');
             $table->jsonb('player2_state');
 

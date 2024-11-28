@@ -41,7 +41,6 @@ class BoardTemplate extends Model
         $initial_gold = $extra_rules['initial_gold'] ?? 5;
 
         return [
-            'turn' => 0,
             'gold' => $initial_gold,
             'castle' => null,
             'resources' => [],
