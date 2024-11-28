@@ -37,8 +37,9 @@
         </div>
         @foreach($templates as $template)
             <div>
-                {{json_encode($template)}}
                 <a href="{{ route('template-edit', $template['id']) }}" class="underline">Create from.</a>
+                <a href="{{ route('game-create', ['template_id' => $template['id']]) }}" class="underline">Start game from.</a>
+                {{json_encode($template)}}
             </div>
         @endforeach
     </body>
