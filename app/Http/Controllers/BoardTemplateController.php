@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BoardTemplate;
 use App\Models\ExtraRule;
+use App\Rules\ValidResources;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -37,17 +38,17 @@ class BoardTemplateController extends Controller
         $validated_data = $request->validate([
             'size_x' => ['required', 'numeric', 'integer', 'min:2', 'max:20'],
             'size_y' => ['required', 'numeric', 'integer', 'min:2', 'max:20'],
-            'resources' => ['required', 'json'],
+            'resources' => ['required', new ValidResources],
             'extra_rules' => ['required', 'json'],
         ]);
 
-        $erF = ExtraRule::all();
-        $er = $erF->mapWithKeys(function ($rule) {
-            return [$rule->name => $rule->validation];
-        })->toArray();
+        $possible_extra_rules = ExtraRule::all();
+        $rule_validation = $possible_extra_rules
+            ->mapWithKeys(fn ($rule) => [$rule->name => $rule->validation])
+            ->toArray();
 
         $er1 = json_decode($validated_data['extra_rules'], associative: true);
-        Validator::validate($er1, $er);
+        Validator::validate($er1, $rule_validation);
 
         // Store plain data
         $template = new BoardTemplate;
@@ -61,9 +62,10 @@ class BoardTemplateController extends Controller
         // Store extra rules
         $meaningful_extra_rules = [];
 
-        foreach ($erF as $rule) {
-            if ($er1[$rule->name] ?? null != null) {
-                $meaningful_extra_rules[$rule->id] = ['value' => $er1[$rule->name]];
+        foreach ($possible_extra_rules as $rule) {
+            $rule_value = $er1[$rule->name] ?? null;
+            if ($rule_value != null) {
+                $meaningful_extra_rules[$rule->id] = ['value' => $rule_value];
             }
         }
 
