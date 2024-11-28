@@ -20,9 +20,11 @@ class BoardTemplateController extends Controller
                 'size_x' => 11,
                 'size_y' => 11,
                 'resources' => [
-                    'x' => 6,
-                    'y' => 6,
-                    'type' => 'Water',
+                    [
+                        'x' => 6,
+                        'y' => 6,
+                        'type' => 'Water',
+                    ],
                 ],
             ],
             'extra_rules' => [],
