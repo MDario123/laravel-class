@@ -19,6 +19,11 @@ class Game extends Model
         'player2_state',
     ];
 
+    protected $casts = [
+        'player1_state' => 'json',
+        'player2_state' => 'json',
+    ];
+
     public function player1()
     {
         return $this->belongsTo(User::class, 'player1_id');
